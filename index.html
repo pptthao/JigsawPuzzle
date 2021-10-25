@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <title>Team iCheck Procon</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+        <script src="bootstrap/js/jquery.min.js"></script>
+        <script src="bootstrap/js/popper.min.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="bootstrap/js/previewImg.js"></script>
+        <link rel="stylesheet" href="fontawsome-5.15.1/css/all.min.css">
+        <script src="fontawsome-5.15.1/js/all.min.js"></script>
+        <script src="js/loadCanvas.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h3 class="text-center">Procon iCheck Team</h3>
+            <div class="row">
+                <div class="col-6 border border-dark p-0" id="puzzlebox">
+                    <canvas id="puzzle"></canvas>
+                </div>
+                <div class="col-6">
+                    <p>Số bước: <span id="stepCount">0</span></p>
+                    <p>Số quay: <span id="rotateCount">0</span></p>
+                    <label>Điều khiển quay:</label>
+                    <div class="d-block">
+                        <button class="btn btn-info btn-control" type="button" value="90">90</button>
+                        <button class="btn btn-info btn-control" type="button" value="180">180</button>
+                        <button class="btn btn-info btn-control" type="button" value="270">270</button>
+                        <button class="btn btn-success" type="button" onclick="setPieces()">phân tích mảnh</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h3>Khởi tạo trò chơi</h3>
+                    <div class="form-group">
+                        <label>Chọn ảnh gốc:</label>
+                        <div id="file-upload-form" class="uploader">
+                            <input id="MainImg" type="file"  name="MainImg">
+                            <label for="MainImg" id="file-drag">
+                                <img id="file-image" src="#" alt="Preview" class="hidden img-fluid">
+                                <div id="start" class="text-info">
+                                    <i class="fa fa-download fa-2x" aria-hidden="true"></i>
+                                    <div>Chọn tải lên tại đây</div>
+                                    <div id="notimage" class="hidden">Vui lòng chọn ảnh</div>
+                                    <span id="file-upload-btn" class="btn btn-outline-info">Chọn file</span>
+                                </div>
+                                <div id="response" class="hidden">
+                                <div id="messages" class="text-flow"></div>
+                                <progress class="progress" id="file-progress" value="0">
+                                    <span>0</span>%
+                                </progress>
+                                </div>
+                            </label>
+                        </div>
+                        <button class="btn btn-info btn-block" onclick="loadImg();" type="button">Tải ảnh lên</button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h3>Chia dòng/cột</h3>
+                    <div class="form-group">
+                        <label>Số cột</label>
+                        <input type="number" min="1" class="form-control" name="col" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Số dòng</label>
+                        <input type="number" min="1" class="form-control" name="row" value="1">
+                    </div>
+                    <div class="form-group btn-group btn-block">
+                        <button class="btn btn-success" onclick="initData();" type="button">Bắt đầu</button>
+                        <button class="btn btn-danger" type="button" onclick="endGame();">Kết thúc</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/jigsawPuzzle.js"></script>
+    <script src="js/solvePuzzle.js"></script>
+    <script>
+        function initData() {
+            var _row_segments = document.getElementsByName("row")[0].value;
+            var _col_segments = document.getElementsByName("col")[0].value;
+            var src = document.getElementById("file-image").src;
+            initGame(src,_col_segments,_row_segments);
+            _rotateStep = 0;
+        }
+        $(document).ready(function(){
+            var _rotateStep = 0;
+            ekUpload();
+            $('.btn-control').click(function () {
+                var degrees = $(this).val();
+                rotate(degrees);
+                _rotateStep++;
+                document.getElementById("rotateCount").innerHTML = _rotateStep;
+            })
+        });
+    </script>
+</html>
